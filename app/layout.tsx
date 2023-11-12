@@ -27,7 +27,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar globalStatistics={<GlobalStatistics />} />
-          <main className="px-6">{children}</main>
+          <main className="px-3 mx-auto max-w-7xl">{children}</main>
         </ThemeProvider>
       </body>
     </html>

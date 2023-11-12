@@ -7,6 +7,7 @@ export const ENDPOINTS = {
     CATEGORIES: API_BASE_URL + '/coins/categories',
   },
   EXCHANGES: API_BASE_URL + '/exchanges',
+  TRENDING: API_BASE_URL + '/search/trending',
 };
 
-export const NEXT_REVALIDATE_TIME = 300;
+export const NEXT_REVALIDATE_TIME = 30;

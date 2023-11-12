@@ -14,6 +14,22 @@ export const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 3,
 });
 
+export const customFormatter = (value: number, fixed?: number) => {
+  const trillion = 1_000_000_000_000;
+  const billion = 1_000_000_000;
+  const million = 1_000_000;
+
+  if (value >= trillion) {
+    return `${formatter.format(value / trillion)} Trillion`;
+  } else if (value >= billion) {
+    return `${formatter.format(value / billion)} Billion`;
+  } else if (value >= million) {
+    return `${formatter.format(value / million)} Million`;
+  } else {
+    return formatter.format(value);
+  }
+};
+
 export const formatPercentage = (value: number, fixed?: number) => {
   const formattedValue = Math.abs(value).toFixed(fixed);
   return `${formattedValue}%`;

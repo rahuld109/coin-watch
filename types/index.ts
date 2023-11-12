@@ -58,6 +58,9 @@ export type CoinMarketsApiResponse = Array<{
   sparkline_in_7d: {
     price: number[];
   };
+  price_change_percentage_1h_in_currency: number;
+  price_change_percentage_24h_in_currency: number;
+  price_change_percentage_7d_in_currency: number;
 }>;
 
 export type CoinsCategoriesApiResponse = Array<{
@@ -70,3 +73,44 @@ export type CoinsCategoriesApiResponse = Array<{
   volume_24h: number;
   updated_at: string;
 }>;
+
+type Coin = {
+  id: string;
+  coin_id: number;
+  name: string;
+  symbol: string;
+  market_cap_rank: number;
+  thumb: string;
+  small: string;
+  large: string;
+  slug: string;
+  price_btc: number;
+  score: number;
+};
+
+type NFT = {
+  id: string;
+  name: string;
+  symbol: string;
+  thumb: string;
+  nft_contract_id: number;
+  native_currency_symbol: string;
+  floor_price_in_native_currency: number;
+  floor_price_24h_percentage_change: number;
+};
+
+type Category = {
+  id: number;
+  name: string;
+  market_cap_1h_change: number;
+  slug: string;
+};
+
+export interface TrendingApiResponse {
+  coins: Array<{
+    item: Coin;
+  }>;
+  nfts: Array<NFT>;
+  exchanges: unknown[]; // Adjust this type if there's a specific type for exchanges
+  categories: Array<Category>;
+}

@@ -16,9 +16,11 @@ const Navbar: FC<NavbarProps> = ({ globalStatistics }) => {
     <NavigationMenu>
       {globalStatistics}
 
-      <div className="flex items-center px-5 border border-t-0">
-        <span className="mr-4 font-mono text-xl">CoinWatch</span>
-        <NavigationItems />
+      <div className="flex flex-wrap items-center px-3 border border-t-0 ">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="mr-4 font-mono text-xl">CoinWatch</div>
+          <NavigationItems />
+        </div>
 
         <Button variant="ghost" className="flex items-center gap-2 ml-auto">
           <Star size={16} />
