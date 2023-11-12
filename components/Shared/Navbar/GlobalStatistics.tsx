@@ -28,7 +28,7 @@ const GlobalStatistics: FC<GlobalStatisticsProps> = async ({}) => {
   return (
     <Fragment>
       <StoreInitializer state={{ stats }} />
-      <div className="flex flex-wrap justify-between gap-2 px-3 py-1 border">
+      <div className="flex flex-wrap justify-between gap-2 px-6 py-1 border">
         <ul className="flex flex-wrap gap-3 py-2">
           <li className="flex items-center gap-1 text-xs">
             <span>Coins:</span>

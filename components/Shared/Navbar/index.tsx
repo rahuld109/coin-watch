@@ -16,7 +16,7 @@ const Navbar: FC<NavbarProps> = ({ globalStatistics }) => {
     <NavigationMenu>
       {globalStatistics}
 
-      <div className="flex flex-wrap items-center px-3 border border-t-0 ">
+      <div className="flex flex-wrap items-center px-6 border border-t-0 ">
         <div className="flex flex-wrap items-center gap-4">
           <div className="mr-4 font-mono text-xl">CoinWatch</div>
           <NavigationItems />
