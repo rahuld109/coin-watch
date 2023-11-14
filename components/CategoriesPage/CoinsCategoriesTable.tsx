@@ -13,19 +13,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
 import {
   Table,
@@ -35,16 +24,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { CoinMarketsApiResponse } from '@/types';
+import { CoinsCategoriesApiResponse } from '@/types';
 import Image from 'next/image';
-import { Trend } from '../ui/trend';
+import { isURL } from '@/lib/utils';
 
-export const columns: ColumnDef<CoinMarketsApiResponse[0]>[] = [
+export const columns: ColumnDef<CoinsCategoriesApiResponse[0]>[] = [
   {
     accessorKey: 'ranking',
     header: '#',
     cell: ({ row }) => {
-      return <div className="capitalize">{row.original.market_cap_rank}</div>;
+      return <div className="capitalize">{row.index + 1}</div>;
     },
   },
   {
@@ -52,98 +41,35 @@ export const columns: ColumnDef<CoinMarketsApiResponse[0]>[] = [
     header: 'Coin',
     cell: ({ row }) => (
       <div className="flex items-center gap-2 capitalize">
-        <Image
-          src={row.original.image}
-          width={20}
-          height={20}
-          alt={row.getValue('name')}
-        />
         {row.getValue('name')}
-        <span className="text-xs uppercase text-slate-400">
-          {row.original.symbol}
-        </span>
       </div>
     ),
   },
   {
-    accessorKey: 'price',
-    header: 'Price',
-    cell: ({ row }) => {
-      const formatter = new Intl.NumberFormat('en-Us', {
-        style: 'currency',
-        currency: 'USD',
-        notation: 'standard',
-        compactDisplay: 'short',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-
-      return (
-        <div className="lowercase">
-          {formatter.format(row.original.current_price)}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: '1h',
-    header: '1h',
+    accessorKey: 'top gainers',
+    header: 'Top Gainers',
     cell: ({ row }) => {
       return (
-        <Trend
-          percentage={row.original.price_change_percentage_1h_in_currency}
-          fixed={2}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: '24h',
-    header: '24h',
-    cell: ({ row }) => {
-      return (
-        <Trend
-          percentage={row.original.price_change_percentage_24h_in_currency}
-          fixed={2}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: '7d',
-    header: '7d',
-    cell: ({ row }) => {
-      return (
-        <Trend
-          percentage={row.original.price_change_percentage_7d_in_currency}
-          fixed={2}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: 'volume',
-    header: 'Volume',
-    cell: ({ row }) => {
-      const formatter = new Intl.NumberFormat('en-Us', {
-        style: 'currency',
-        currency: 'USD',
-        notation: 'standard',
-        compactDisplay: 'short',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      });
-
-      return (
-        <div className="lowercase">
-          {formatter.format(row.original.total_volume)}
+        <div className="flex gap-2">
+          {row.original.top_3_coins.map((imageUrl) => {
+            if (!isURL(imageUrl)) return null;
+            return (
+              <Image
+                key={imageUrl}
+                src={imageUrl}
+                width={20}
+                height={20}
+                alt={row.getValue('name')}
+              />
+            );
+          })}
         </div>
       );
     },
   },
   {
     accessorKey: 'markte cap',
-    header: 'Mkt Cap',
+    header: 'Market Capitalization',
     cell: ({ row }) => {
       const formatter = new Intl.NumberFormat('en-Us', {
         style: 'currency',
@@ -156,47 +82,43 @@ export const columns: ColumnDef<CoinMarketsApiResponse[0]>[] = [
 
       return (
         <div className="lowercase">
-          {formatter.format(row.original.market_cap)}
+          {row.original.market_cap
+            ? formatter.format(row.original.market_cap)
+            : '-'}
         </div>
       );
     },
   },
   {
-    id: 'actions',
-    enableHiding: false,
+    accessorKey: 'volume',
+    header: '24h Volume',
     cell: ({ row }) => {
-      const payment = row.original;
+      const formatter = new Intl.NumberFormat('en-Us', {
+        style: 'currency',
+        currency: 'USD',
+        notation: 'standard',
+        compactDisplay: 'short',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      });
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-8 h-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="lowercase">
+          {row.original.volume_24h
+            ? formatter.format(row.original.volume_24h)
+            : '-'}
+        </div>
       );
     },
   },
 ];
 
-export function MarketCapTable({ data }: { data: CoinMarketsApiResponse }) {
+export function CoinsCategoriesTable({
+  data,
+}: {
+  data: CoinsCategoriesApiResponse;
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
@@ -204,49 +126,25 @@ export function MarketCapTable({ data }: { data: CoinMarketsApiResponse }) {
     data,
     columns,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 50,
+      },
+    },
     state: {
       sorting,
-      columnFilters,
       columnVisibility,
     },
   });
 
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="w-4 h-4 ml-2" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+    <div className="w-full mt-8">
       <div className="border rounded-md">
         <Table>
           <TableHeader>

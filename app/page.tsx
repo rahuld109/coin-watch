@@ -1,11 +1,10 @@
-import { MarketCapTable } from '@/components/HomePage/MarketCapTable';
-import TrendingCoins from '@/components/HomePage/TrendingCoins';
+import { CoinsMarketCapTable } from '@/components/HomePage/CoinsMarketCapTable';
 import { Trend } from '@/components/ui/trend';
 import { ENDPOINTS, NEXT_REVALIDATE_TIME } from '@/constants/Shared';
 import { customFormatter } from '@/lib/utils';
 import { useAppStore } from '@/store';
 import StoreInitializer from '@/store/StoreInitializer';
-import { CoinMarketsApiResponse } from '@/types';
+import { CoinsMarketsApiResponse } from '@/types';
 import { Fragment } from 'react';
 
 export default async function HomePage() {
@@ -19,7 +18,7 @@ export default async function HomePage() {
     }
   );
 
-  const listOfCoinMarkets: CoinMarketsApiResponse = await res.json();
+  const listOfCoinMarkets: CoinsMarketsApiResponse = await res.json();
   return (
     <Fragment>
       <StoreInitializer state={{ market_cap: listOfCoinMarkets }} />
@@ -33,7 +32,7 @@ export default async function HomePage() {
         , a
         <Trend
           className="mx-1"
-          fixed={1}
+          fixed={2}
           percentage={
             useAppStore.getState().stats
               ?.market_cap_change_percentage_24h_usd || 0
@@ -41,7 +40,7 @@ export default async function HomePage() {
         />
         change over the last day.
       </p>
-      <MarketCapTable data={listOfCoinMarkets} />
+      <CoinsMarketCapTable data={listOfCoinMarkets} />
     </Fragment>
   );
 }

@@ -50,3 +50,14 @@ export function formatToTime(timestamp: number): string {
 
   return formattedDate;
 }
+
+export function isURL(value: string) {
+  try {
+    // Attempt to create a URL object with the given string
+    new URL(value);
+    return true;
+  } catch (error) {
+    // If an error is thrown, the string is not a valid URL
+    return false;
+  }
+}

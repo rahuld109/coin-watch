@@ -28,7 +28,7 @@ export type ExchangesApiResponse = Array<{
   trade_volume_24h_btc_normalized: number;
 }>;
 
-export type CoinMarketsApiResponse = Array<{
+export type CoinsMarketsApiResponse = Array<{
   id: string;
   symbol: string;
   name: string;
@@ -66,8 +66,8 @@ export type CoinMarketsApiResponse = Array<{
 export type CoinsCategoriesApiResponse = Array<{
   id: string;
   name: string;
-  market_cap: number;
-  market_cap_change_24h: number;
+  market_cap: number | null;
+  market_cap_change_24h: number | null;
   content: string;
   top_3_coins: string[];
   volume_24h: number;
