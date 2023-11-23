@@ -61,3 +61,19 @@ export function isURL(value: string) {
     return false;
   }
 }
+
+export function formatNumberWithCommas(number: string): string {
+  const parts = number.split('.');
+  const integerPart = parts[0];
+  let formattedInteger = '';
+
+  for (let i = 0; i < integerPart.length; i++) {
+    if (i > 0 && i % 3 === 0) {
+      formattedInteger = ',' + formattedInteger; // Add comma every three digits
+    }
+    formattedInteger =
+      integerPart[integerPart.length - 1 - i] + formattedInteger;
+  }
+
+  return parts.join('.');
+}

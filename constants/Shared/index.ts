@@ -10,4 +10,4 @@ export const ENDPOINTS = {
   TRENDING: API_BASE_URL + '/search/trending',
 };
 
-export const NEXT_REVALIDATE_TIME = 30;
+export const NEXT_REVALIDATE_TIME = 600;

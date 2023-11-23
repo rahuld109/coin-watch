@@ -22,139 +22,88 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { CoinsMarketsApiResponse } from '@/types';
+import { ExchangesApiResponse } from '@/types';
 import Image from 'next/image';
 import { Trend } from '../ui/trend';
+import TrustProgress from '../ui/trust-progress';
+import { formatNumberWithCommas, isURL } from '@/lib/utils';
 
-export const columns: ColumnDef<CoinsMarketsApiResponse[0]>[] = [
+interface ExchangesTableProps {
+  data: ExchangesApiResponse;
+}
+
+export const columns: ColumnDef<ExchangesApiResponse[0]>[] = [
   {
     accessorKey: 'ranking',
     header: '#',
     cell: ({ row }) => {
-      return <div className="capitalize">{row.original.market_cap_rank}</div>;
+      return <div className="capitalize">{row.original.trust_score_rank}</div>;
     },
   },
   {
     accessorKey: 'name',
-    header: 'Coin',
+    header: 'Exchange',
     cell: ({ row }) => (
-      <div className="flex items-center gap-2 capitalize">
-        <Image
-          src={row.original.image}
-          width={20}
-          height={20}
-          alt={row.getValue('name')}
-        />
-        {row.getValue('name')}
-        <span className="text-xs uppercase text-slate-400">
-          {row.original.symbol}
-        </span>
+      <div className="flex items-center gap-2">
+        {!isURL(row.original.image) ? null : (
+          <Image
+            src={row.original.image}
+            width={40}
+            height={40}
+            alt={row.getValue('name')}
+          />
+        )}
+
+        <div className="flex flex-col capitalize">
+          {row.getValue('name')}
+          <span className="text-xs text-slate-400">
+            {row.original.country ? 'Centralized' : 'Decentralized'}
+          </span>
+        </div>
       </div>
     ),
   },
   {
-    accessorKey: 'price',
-    header: 'Price',
+    accessorKey: '24h volume (normalized)',
+    header: '24h Volume (Normalized)',
     cell: ({ row }) => {
-      const formatter = new Intl.NumberFormat('en-Us', {
-        style: 'currency',
-        currency: 'USD',
-        notation: 'standard',
-        compactDisplay: 'short',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-
       return (
-        <div className="lowercase">
-          {formatter.format(row.original.current_price)}
+        <div className="uppercase">
+          {formatNumberWithCommas(
+            row.original.trade_volume_24h_btc_normalized.toFixed(2)
+          )}{' '}
+          btc
         </div>
       );
     },
   },
   {
-    accessorKey: '1h',
-    header: '1h',
+    accessorKey: '24h volume',
+    header: '24h Volume',
     cell: ({ row }) => {
       return (
-        <Trend
-          percentage={row.original.price_change_percentage_1h_in_currency}
-          fixed={2}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: '24h',
-    header: '24h',
-    cell: ({ row }) => {
-      return (
-        <Trend
-          percentage={row.original.price_change_percentage_24h_in_currency}
-          fixed={2}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: '7d',
-    header: '7d',
-    cell: ({ row }) => {
-      return (
-        <Trend
-          percentage={row.original.price_change_percentage_7d_in_currency}
-          fixed={2}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: 'volume',
-    header: 'Volume',
-    cell: ({ row }) => {
-      const formatter = new Intl.NumberFormat('en-Us', {
-        style: 'currency',
-        currency: 'USD',
-        notation: 'standard',
-        compactDisplay: 'short',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      });
-
-      return (
-        <div className="lowercase">
-          {formatter.format(row.original.total_volume)}
+        <div className="uppercase">
+          {formatNumberWithCommas(row.original.trade_volume_24h_btc.toFixed(2))}{' '}
+          btc
         </div>
       );
     },
   },
   {
-    accessorKey: 'markte cap',
-    header: 'Mkt Cap',
+    accessorKey: 'trust',
+    header: 'Trust Score',
     cell: ({ row }) => {
-      const formatter = new Intl.NumberFormat('en-Us', {
-        style: 'currency',
-        currency: 'USD',
-        notation: 'standard',
-        compactDisplay: 'short',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      });
-
       return (
-        <div className="lowercase">
-          {formatter.format(row.original.market_cap)}
+        <div className="lowercase flex gap-2 items-center">
+          <TrustProgress value={row.original.trust_score} />
+          {row.original.trust_score}
         </div>
       );
     },
   },
 ];
 
-export function CoinsMarketCapTable({
-  data,
-}: {
-  data: CoinsMarketsApiResponse;
-}) {
+const ExchangesTable: React.FC<ExchangesTableProps> = ({ data }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -252,4 +201,6 @@ export function CoinsMarketCapTable({
       </div>
     </div>
   );
-}
+};
+
+export default ExchangesTable;
