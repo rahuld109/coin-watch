@@ -114,3 +114,17 @@ export interface TrendingApiResponse {
   exchanges: unknown[]; // Adjust this type if there's a specific type for exchanges
   categories: Array<Category>;
 }
+
+export type DerivativesExchangeApiResponse = Array<{
+  name: string;
+  id: string;
+  open_interest_btc: number;
+  trade_volume_24h_btc: number;
+  number_of_perpetual_pairs: number;
+  number_of_futures_pairs: number;
+  image: string;
+  year_established: number;
+  country: null;
+  description: string;
+  url: string;
+}>;

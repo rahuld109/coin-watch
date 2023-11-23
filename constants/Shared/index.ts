@@ -7,6 +7,9 @@ export const ENDPOINTS = {
     CATEGORIES: API_BASE_URL + '/coins/categories',
   },
   EXCHANGES: API_BASE_URL + '/exchanges',
+  DERIVATIVES: {
+    EXCHANGES: API_BASE_URL + '/derivatives/exchanges',
+  },
   TRENDING: API_BASE_URL + '/search/trending',
 };
 
