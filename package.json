@@ -1,7 +1,21 @@
 {
   "name": "coin-watch",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
+  "description": "An application to watch market capitalization and trends of cryptocurrencies and exchanges.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rahuld109/coin-watch"
+  },
+  "author": "Rahul Dogra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rahuld109/coin-watch/issues"
+  },
+  "homepage": "https://coin-watch-henna.vercel.app/",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -27,7 +41,6 @@
     "react-spring": "^9.7.3",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.158.0",
     "zustand": "^4.4.6"
   },
   "devDependencies": {
