@@ -5,7 +5,6 @@ import { customFormatter } from '@/lib/utils';
 import { useAppStore } from '@/store';
 import StoreInitializer from '@/store/StoreInitializer';
 import { CoinsMarketsApiResponse } from '@/types';
-import { Fragment } from 'react';
 
 export default async function HomePage() {
   const res = await fetch(
@@ -20,7 +19,7 @@ export default async function HomePage() {
 
   const listOfCoinMarkets: CoinsMarketsApiResponse = await res.json();
   return (
-    <Fragment>
+    <>
       <StoreInitializer state={{ market_cap: listOfCoinMarkets }} />
       <h2 className="mt-5 text-xl">Cryptocurrency Prices by Market Cap</h2>
       <p className="flex items-center text-sm text-slate-400">
@@ -41,6 +40,6 @@ export default async function HomePage() {
         change over the last day.
       </p>
       <CoinsMarketCapTable data={listOfCoinMarkets} />
-    </Fragment>
+    </>
   );
 }
