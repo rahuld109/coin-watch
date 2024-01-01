@@ -2,7 +2,6 @@ import DerivativesTable from '@/components/DerivativesPage/DerivativesTable';
 import { ENDPOINTS, NEXT_REVALIDATE_TIME } from '@/constants/Shared';
 import StoreInitializer from '@/store/StoreInitializer';
 import { DerivativesExchangeApiResponse } from '@/types';
-import { Fragment } from 'react';
 
 const DerivativesPage = async ({}) => {
   const res = await fetch(
@@ -18,7 +17,7 @@ const DerivativesPage = async ({}) => {
     await res.json();
 
   return (
-    <Fragment>
+    <>
       <StoreInitializer state={{ derivatives: listOfDerivativesExchanges }} />
       <h2 className="mt-5 text-xl">
         Top Derivative Exchanges Ranked by Open Interest & Trade Volume
@@ -28,7 +27,7 @@ const DerivativesPage = async ({}) => {
         and open interest.
       </p>
       <DerivativesTable data={listOfDerivativesExchanges} />
-    </Fragment>
+    </>
   );
 };
 

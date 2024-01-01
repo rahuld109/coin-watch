@@ -2,7 +2,7 @@ import { ENDPOINTS, NEXT_REVALIDATE_TIME } from '@/constants/Shared';
 import { formatPercentage, formatToTime, formatter } from '@/lib/utils';
 import { GlobalSatisticsApiResponse } from '@/types';
 import Link from 'next/link';
-import React, { Fragment } from 'react';
+import React from 'react';
 import type { FC } from 'react';
 import { Trend } from '../../ui/trend';
 import { DarkModeToggle } from './DarkModeToggle';
@@ -26,7 +26,7 @@ const GlobalStatistics: FC<GlobalStatisticsProps> = async ({}) => {
   const market_cap_percentage_keys = Object.keys(stats.market_cap_percentage);
 
   return (
-    <Fragment>
+    <>
       <StoreInitializer state={{ stats }} />
       <div className="flex flex-wrap justify-between gap-2 px-6 py-1 border">
         <ul className="flex flex-wrap gap-3 py-2">
@@ -101,7 +101,7 @@ const GlobalStatistics: FC<GlobalStatisticsProps> = async ({}) => {
           </Button>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };
 
