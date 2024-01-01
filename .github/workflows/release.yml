@@ -14,6 +14,8 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - run: bun install
       - run: bun run build
+        env:
+          GECKO_API_URL: ${{ env.GECKO_API_URL }}
       - run: bunx semantic-release
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
