@@ -74,13 +74,6 @@ const NavigationItems: FC<NavigationMenuProps> = ({}) => {
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
-      <NavigationMenuItem>
-        <Link href="/exchange_rate" legacyBehavior passHref>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Price
-          </NavigationMenuLink>
-        </Link>
-      </NavigationMenuItem>
     </NavigationMenuList>
   );
 };
