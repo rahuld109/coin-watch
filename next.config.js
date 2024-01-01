@@ -18,6 +18,11 @@ const nextConfig = {
       },
     ],
   },
+  sentry: {
+    disableServerWebpackPlugin: true,
+    disableClientWebpackPlugin: true,
+    hideSourceMaps: true,
+  },
 };
 
 module.exports = withSentryConfig(
@@ -30,6 +35,7 @@ module.exports = withSentryConfig(
     silent: true,
     org: 'rd-rc',
     project: 'coin-watch-nextjs',
+    authToken: process.env.SENTRY_AUTH_TOKEN,
   },
   {
     // For all available options, see:
