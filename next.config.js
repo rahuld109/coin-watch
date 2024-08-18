@@ -6,13 +6,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'assets.coingecko.com',
+        hostname: 'coin-images.coingecko.com',
         port: '',
         pathname: '/coins/images/**',
       },
       {
         protocol: 'https',
-        hostname: 'assets.coingecko.com',
+        hostname: 'coin-images.coingecko.com',
         port: '',
         pathname: '/markets/images/**',
       },

@@ -6,7 +6,6 @@ import React from 'react';
 import type { FC } from 'react';
 import { Trend } from '../../ui/trend';
 import { DarkModeToggle } from './DarkModeToggle';
-import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/store';
 import StoreInitializer from '@/store/StoreInitializer';
 
@@ -93,12 +92,6 @@ const GlobalStatistics: FC<GlobalStatisticsProps> = async ({}) => {
 
         <div className="flex items-center gap-3">
           <DarkModeToggle />
-          <Button variant="outline" size="sm">
-            Log in
-          </Button>
-          <Button className="text-white bg-blue-600" size="sm">
-            Sign up
-          </Button>
         </div>
       </div>
     </>
